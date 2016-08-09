@@ -1,5 +1,21 @@
 - view: medalists
-  sql_table_name: summer_olympics.medalists
+  derived_table:
+    sql: |
+      select
+        sy.sport as sport,
+        sy.year as game_year,
+        m.athlete as athlete,
+        m.city as city,
+        m.discipline as discipline,
+        m.event as event,
+        m.event_gender as event_gender,
+        m.gender as gender,
+        m.medal as medal,
+        m.noc as country
+      from ${year_sports.SQL_TABLE_NAME} as sy
+      left join summer_olympics.medalists m
+      on m.edition = sy.year and m.sport = sy.sport
+
   fields:
 
   - dimension: athlete
@@ -16,7 +32,7 @@
 
   - dimension: game_year
     type: string
-    sql: ${TABLE}.edition
+    sql: ${TABLE}.game_year
     
   - dimension: event
     type: string
@@ -36,7 +52,7 @@
 
   - dimension: country
     type: string
-    sql: ${TABLE}.noc
+    sql: ${TABLE}.country
 
   - dimension: sport
     type: string
