@@ -15,9 +15,9 @@
     sql: ${TABLE}.discipline
 
   - dimension: game_year
-    type: datetime
+    type: string
     sql: ${TABLE}.edition
-
+    
   - dimension: event
     type: string
     sql: ${TABLE}.event
@@ -186,22 +186,31 @@
     type: string
     sql: ${TABLE}.sport
 
-  - measure: count
+  - measure: medal_count
     type: count
-    approximate_threshold: 100000
-    drill_fields: []
+    drill_fields: medalists
 
   - measure: gold_count
     type: count
     filters:
       medal: 'Gold'
+    drill_fields: medalists
 
   - measure: silver_count
     type: count
     filters:
       medal: 'Silver'
+    drill_fields: medalists
 
   - measure: bronze_count
     type: count
     filters:
       medal: 'Bronze'
+    drill_fields: medalists
+  
+  - measure: event_count
+    type: count_distinct
+    sql: ${event}
+
+  sets:
+    medalists: [athlete, country, game_year, sport, event, discipline]
