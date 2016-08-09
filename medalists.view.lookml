@@ -15,9 +15,9 @@
     sql: ${TABLE}.discipline
 
   - dimension: game_year
-    type: datetime
+    type: string
     sql: ${TABLE}.edition
-
+    
   - dimension: event
     type: string
     sql: ${TABLE}.event
@@ -63,6 +63,10 @@
     filters:
       medal: 'Bronze'
     drill_fields: medalists
+  
+  - measure: event_count
+    type: count_distinct
+    sql: ${event}
 
   sets:
     medalists: [athlete, country, game_year, sport, event, discipline]
