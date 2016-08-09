@@ -31,7 +31,7 @@
     sql: ${TABLE}.discipline
 
   - dimension: game_year
-    type: string
+    type: number
     sql: ${TABLE}.game_year
     
   - dimension: event
@@ -56,6 +56,7 @@
 
   - dimension: country_name
     type: string
+    map_layer: countries
     sql: |
       CASE WHEN ${country} = 'AFG' THEN 'Afghanistan'
           WHEN ${country} = 'AHO' THEN 'Netherlands Antilles'
@@ -187,7 +188,7 @@
           WHEN ${country} = 'UKR' THEN 'Ukraine'
           WHEN ${country} = 'URS' THEN 'Soviet Union'
           WHEN ${country} = 'URU' THEN 'Uruguay'
-          WHEN ${country} = 'USA' THEN 'United States'
+          WHEN ${country} = 'USA' THEN 'United States of America'
           WHEN ${country} = 'UZB' THEN 'Uzbekistan'
           WHEN ${country} = 'VEN' THEN 'Venezuela'
           WHEN ${country} = 'VIE' THEN 'Vietnam'
@@ -249,6 +250,10 @@
     filters:
       medal: 'Silver'
     drill_fields: medalists
+
+  - measure: point_count
+    type: number
+    sql: 3 * ${gold_count} + 2 * ${silver_count} + ${bronze_count}
 
   - measure: bronze_count
     type: count
