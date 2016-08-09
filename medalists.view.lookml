@@ -14,8 +14,8 @@
     type: string
     sql: ${TABLE}.discipline
 
-  - dimension: edition
-    type: number
+  - dimension: game_year
+    type: datetime
     sql: ${TABLE}.edition
 
   - dimension: event
@@ -47,3 +47,17 @@
     approximate_threshold: 100000
     drill_fields: []
 
+  - measure: gold_count
+    type: count
+    filters:
+      medal: 'Gold'
+
+  - measure: silver_count
+    type: count
+    filters:
+      medal: 'Silver'
+
+  - measure: bronze_count
+    type: count
+    filters:
+      medal: 'Bronze'
