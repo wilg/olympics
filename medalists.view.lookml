@@ -31,7 +31,7 @@
     sql: ${TABLE}.discipline
 
   - dimension: game_year
-    type: string
+    type: number
     sql: ${TABLE}.game_year
     
   - dimension: event

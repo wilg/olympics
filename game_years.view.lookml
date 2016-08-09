@@ -9,7 +9,7 @@
 
   fields:
     - dimension: year
-      type: string
+      type: number
       primary_key: true
 
 - view: sports
@@ -38,7 +38,7 @@
 
   fields:
     - dimension: year
-      type: string
+      type: number
 
     - dimension: sport
       type: string
