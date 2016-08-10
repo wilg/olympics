@@ -32,6 +32,7 @@
 
   - dimension: game_year
     type: number
+    value_format_name: id
     sql: ${TABLE}.game_year
     
   - dimension: event
@@ -227,6 +228,16 @@
   - measure: event_count
     type: count_distinct
     sql: ${event}
+  
+  - measure: men_count
+    type: count
+    filter:
+      gender: 'Men'
+  
+  - measure: women_count
+    type: count
+    filter:
+      gender: 'Women'
 
   sets:
     medalists: [athlete, country, game_year, sport, event, discipline]
