@@ -57,6 +57,7 @@
 
   - dimension: country_name
     type: string
+    map_layer: countries
     sql: |
       CASE WHEN ${country} = 'AFG' THEN 'Afghanistan'
           WHEN ${country} = 'AHO' THEN 'Netherlands Antilles'
@@ -188,7 +189,7 @@
           WHEN ${country} = 'UKR' THEN 'Ukraine'
           WHEN ${country} = 'URS' THEN 'Soviet Union'
           WHEN ${country} = 'URU' THEN 'Uruguay'
-          WHEN ${country} = 'USA' THEN 'United States'
+          WHEN ${country} = 'USA' THEN 'United States of America'
           WHEN ${country} = 'UZB' THEN 'Uzbekistan'
           WHEN ${country} = 'VEN' THEN 'Venezuela'
           WHEN ${country} = 'VIE' THEN 'Vietnam'
@@ -198,6 +199,38 @@
           WHEN ${country} = 'ZZX' THEN 'Mixed teams'
           ELSE ${country}
       END
+      
+      
+  - dimension: is_home_city
+    type: yesno
+    sql: |
+      (${country} = 'NED' AND ${city} = 'Amsterdam' AND ${game_year} = 1928) OR 
+      (${country} = 'BEL' AND ${city} = 'Antwerp' AND ${game_year} = 1920) OR
+      (${country} = 'GRE' AND ${city} = 'Athens' AND ${game_year} = 1896) OR
+      (${country} = 'GRE' AND ${city} = 'Athens' AND ${game_year} = 2004) OR
+      (${country} = 'USA' AND ${city} = 'Atlanta' AND ${game_year} = 1996) OR
+      (${country} = 'ESP' AND ${city} = 'Barcelona' AND ${game_year} = 1992) OR
+      (${country} = 'CHN' AND ${city} = 'Beijing' AND ${game_year} = 2008) OR
+      (${country} = 'GER' AND ${city} = 'Berlin' AND ${game_year} = 1936) OR
+      (${country} = 'FIN' AND ${city} = 'Helsinki' AND ${game_year} = 1952) OR
+      (${country} = 'GBR' AND ${city} = 'London' AND ${game_year} = 1908) OR
+      (${country} = 'GBR' AND ${city} = 'London' AND ${game_year} = 1948) OR
+      (${country} = 'USA' AND ${city} = 'Los Angeles' AND ${game_year} = 1932) OR
+      (${country} = 'USA' AND ${city} = 'Los Angeles' AND ${game_year} = 1984) OR
+      (${country} = 'AUS' AND ${city} = 'Melbourne' AND ${game_year} = 1956) OR
+      (${country} = 'SWE' AND ${city} = 'Stockholm' AND ${game_year} = 1956) OR
+      (${country} = 'SWE' AND ${city} = 'Stockholm' AND ${game_year} = 1912) OR
+      (${country} = 'MEX' AND ${city} = 'Mexico' AND ${game_year} = 1968) OR
+      (${country} = 'CAN' AND ${city} = 'Montreal' AND ${game_year} = 1976) OR
+      (${country} = 'URS' AND ${city} = 'Moscow' AND ${game_year} = 1980) OR
+      (${country} = 'FRG' AND ${city} = 'Munich' AND ${game_year} = 1972) OR
+      (${country} = 'FRA' AND ${city} = 'Paris' AND ${game_year} = 1900) OR
+      (${country} = 'FRA' AND ${city} = 'Paris' AND ${game_year} = 1924) OR
+      (${country} = 'ITA' AND ${city} = 'Rome' AND ${game_year} = 1960) OR
+      (${country} = 'KOR' AND ${city} = 'Seoul' AND ${game_year} = 1988) OR
+      (${country} = 'USA' AND ${city} = 'St Louis' AND ${game_year} = 1904) OR
+      (${country} = 'AUS' AND ${city} = 'Sydney' AND ${game_year} = 2000) OR
+      (${country} = 'JPN' AND ${city} = 'Tokyo' AND ${game_year} = 1964)
 
   - dimension: sport
     type: string
@@ -219,6 +252,10 @@
       medal: 'Silver'
     drill_fields: medalists
 
+  - measure: point_count
+    type: number
+    sql: 3 * ${gold_count} + 2 * ${silver_count} + ${bronze_count}
+
   - measure: bronze_count
     type: count
     filters:
@@ -228,7 +265,7 @@
   - measure: event_count
     type: count_distinct
     sql: ${event}
-  
+
   - measure: men_count
     type: count
     filter:
@@ -239,5 +276,9 @@
     filter:
       gender: 'Women'
 
+  - measure: game_year_count
+    type: count_distinct
+    sql: ${game_year}
+    
   sets:
     medalists: [athlete, country, game_year, sport, event, discipline]
