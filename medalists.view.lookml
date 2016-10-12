@@ -38,6 +38,7 @@
   - dimension: event
     type: string
     sql: ${TABLE}.event
+    drill_fields: medalists*
 
   - dimension: event_gender
     type: string
