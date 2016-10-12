@@ -50,6 +50,7 @@
   - dimension: medal
     type: string
     sql: ${TABLE}.medal
+    drill_fields: [medal]
 
   - dimension: country
     type: string
@@ -58,6 +59,7 @@
   - dimension: country_name
     type: string
     map_layer: countries
+    drill_fields: [gender, city, athlete, discipline, medal]
     sql: |
       CASE WHEN ${country} = 'AFG' THEN 'Afghanistan'
           WHEN ${country} = 'AHO' THEN 'Netherlands Antilles'
@@ -235,6 +237,7 @@
   - dimension: sport
     type: string
     sql: ${TABLE}.sport
+    drill_fields: [gender, city, athlete, discipline, medal]
 
   - measure: medal_count
     type: count
