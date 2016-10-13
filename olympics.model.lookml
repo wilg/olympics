@@ -6,3 +6,5 @@
 - explore: medalists
 
 - explore: top_athletes
+
+- persist_for: 99999 hours
